@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>My Games Collection</title>
+        <script src="db.js"></script>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            body {
+                background: linear-gradient(135deg, #1a1a2e, #16213e);
+                color: #fff;
+                min-height: 100vh;
+                padding: 2rem;
+            }
+
+            #container {
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+
+            h1 {
+                text-align: center;
+                font-size: 2.5rem;
+                margin-bottom: 2rem;
+                color: #fff;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+
+            .games-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2rem;
+                padding: 1rem;
+            }
+
+            .game-card {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                padding: 1.5rem;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .game-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .game-title {
+                font-size: 1.5rem;
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                color: #4dc9ff;
+            }
+
+            .game-year {
+                font-size: 1.1rem;
+                color: #a0a0a0;
+                margin-bottom: 1rem;
+            }
+
+            .game-image {
+                width: 100%;
+                height: 400px;
+                object-fit: cover;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            }
+
+            @media (max-width: 768px) {
+                .games-grid {
+                    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                    gap: 1rem;
+                }
+
+                body {
+                    padding: 1rem;
+                }
+
+                h1 {
+                    font-size: 2rem;
+                }
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="header">My Games Collection</h1>
+        <div id="container"></div>
+    </body>
+    <script>
+        document.getElementById('header').innerHTML += ' (' + db.length + ')'
+        const container = document.getElementById('container')
+        const gamesGrid = document.createElement('div')
+        gamesGrid.className = 'games-grid'
+
+        for (const game of db) {
+            const gameCard = document.createElement('div')
+            gameCard.className = 'game-card'
+            gameCard.style.animation = 'fadeIn 0.5s ease forwards'
+            gameCard.innerHTML = `
+                <div class="game-title">${game.title}</div>
+                <div class="game-year">${game.year}</div>
+                <img class="game-image" src="${game.image}" alt="${game.title}">
+            `
+            gamesGrid.appendChild(gameCard)
+        }
+
+        container.appendChild(gamesGrid)
+    </script>
+</html>
